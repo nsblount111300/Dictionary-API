@@ -40,11 +40,6 @@ app.get("/definitions", (req, res) => {
     console.log("sqlite3 initialized.");
   });
   sqlGetAll = "SELECT * FROM Dictionary ORDER BY word ASC";
-  const queryObject = url.parse(req.url, true).query;
-  if (queryObject.field && queryObject.type) {
-    let sqlGetAllById = `SELECT * FROM Dictionary ORDER BY word ASC WHERE ${queryObject.field} LIKE %${queryObject.type}%`;
-  }
-
   db.all(sqlGetAll, [], (err, rows) => {
     if (err) return console.error(err.message);
     res.send(rows);
@@ -52,4 +47,18 @@ app.get("/definitions", (req, res) => {
   db.close();
 });
 
+app.get("/definitions/:word", (req, res) => {
+  let db = new sqlite3.Database("api.db", (err) => {
+    if (err) return console.error(err.message);
+    console.log("sqlite3 initialized.");
+  });
+  const search = req.params.word;
+  const searchDef = `SELECT * FROM Dictionary WHERE "${search}" IN (word, def) ORDER BY word ASC `;
+  console.log(search);
+  db.all(searchDef, [], (err, rows) => {
+    if (err) return console.error(err.message);
+    res.send(rows);
+  });
+  db.close();
+});
 app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
