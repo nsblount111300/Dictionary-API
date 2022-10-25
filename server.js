@@ -18,14 +18,14 @@ app.use(express.static("public"));
 
 //POST, C-Create
 app.post("/definitions/", jsonParser, (req, res) => {
-  let db = new sqlite3.Database("api.db", (err) => {
+  let db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
     console.log("sqlite3 initialized.");
   });
   console.log(req.body);
   const data = req.body;
   const input = [data.word, data.def];
-  const sqlCreateWord = "INSERT INTO Dictionary(word,def) VALUES (?,?)";
+  const sqlCreateWord = "INSERT INTO entries(word,definition) VALUES (?,?)";
   db.run(sqlCreateWord, input, (err) => {
     if (err) return console.error(err);
     res.send(`Successful entry ${input}`);
@@ -35,11 +35,11 @@ app.post("/definitions/", jsonParser, (req, res) => {
 
 //GET, R-READ
 app.get("/definitions", (req, res) => {
-  let db = new sqlite3.Database("api.db", (err) => {
+  let db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
     console.log("sqlite3 initialized.");
   });
-  sqlGetAll = "SELECT * FROM Dictionary ORDER BY word ASC";
+  sqlGetAll = "SELECT * FROM entries ORDER BY word ASC";
   db.all(sqlGetAll, [], (err, rows) => {
     if (err) return console.error(err.message);
     res.send(rows);
@@ -48,12 +48,12 @@ app.get("/definitions", (req, res) => {
 });
 
 app.get("/definitions/:word", (req, res) => {
-  let db = new sqlite3.Database("api.db", (err) => {
+  let db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
     console.log("sqlite3 initialized.");
   });
   const search = req.params.word;
-  const searchDef = `SELECT * FROM Dictionary WHERE "${search}" IN (word, def) ORDER BY word ASC `;
+  const searchDef = `SELECT * FROM entries WHERE "${search}" IN (word, definition) ORDER BY word ASC `;
   console.log(search);
   db.all(searchDef, [], (err, rows) => {
     if (err) return console.error(err.message);
