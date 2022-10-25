@@ -58,6 +58,7 @@ app.get("/definitions/:word", (req, res) => {
     if (err) return console.error(err.message);
     res.send(rows);
   });
+  console.log(req.body);
   db.close();
 });
 app.listen(PORT, () => console.log(`API is live on http://localhost:${PORT}`));
