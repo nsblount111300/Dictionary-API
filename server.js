@@ -9,14 +9,12 @@ const { query } = require("express");
 const jsonParser = bodyParser.json();
 const urlEncodedParser = bodyParser.urlencoded({ extended: true });
 
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(jsonParser);
 app.use(urlEncodedParser);
 app.use(express.static("public"));
 
-//POST, C-Create
+//POST, C-Create, Have user input their own words/definitions
 app.post("/definitions/", jsonParser, (req, res) => {
   let db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
@@ -33,7 +31,7 @@ app.post("/definitions/", jsonParser, (req, res) => {
   db.close();
 });
 
-//GET, R-READ
+//GET, R-READ, Get database as a whole
 app.get("/definitions", (req, res) => {
   let db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
@@ -47,6 +45,7 @@ app.get("/definitions", (req, res) => {
   db.close();
 });
 
+//GET, Specific words/definitions
 app.get("/definitions/:word", (req, res) => {
   let db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
@@ -61,4 +60,4 @@ app.get("/definitions/:word", (req, res) => {
   });
   db.close();
 });
-app.listen(PORT, () => console.log(`it's alive on http://localhost:${PORT}`));
+app.listen(PORT, () => console.log(`API is live on http://localhost:${PORT}`));
