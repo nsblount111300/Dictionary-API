@@ -33,11 +33,11 @@ app.post("/definitions/", jsonParser, (req, res) => {
 
 //GET, R-READ, Get database as a whole
 app.get("/definitions", (req, res) => {
-  let db = new sqlite3.Database("Dictionary.db", (err) => {
+  const db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
     console.log("sqlite3 initialized.");
   });
-  sqlGetAll = "SELECT * FROM entries ORDER BY word ASC";
+  const sqlGetAll = "SELECT * FROM entries ORDER BY word ASC";
   db.all(sqlGetAll, [], (err, rows) => {
     if (err) return console.error(err.message);
     res.send(rows);
@@ -45,20 +45,20 @@ app.get("/definitions", (req, res) => {
   db.close();
 });
 
-//GET, Specific words/definitions
+// GET, Specific words/definitions
 app.get("/definitions/:word", (req, res) => {
-  let db = new sqlite3.Database("Dictionary.db", (err) => {
+  const db = new sqlite3.Database("Dictionary.db", (err) => {
     if (err) return console.error(err.message);
     console.log("sqlite3 initialized.");
   });
   const search = req.params.word;
-  const searchDef = `SELECT * FROM entries WHERE "${search}" IN (word, definition) ORDER BY word ASC `;
-  console.log(search);
-  db.all(searchDef, [], (err, rows) => {
+  const sqlGetSearch = `SELECT * FROM entries WHERE "${search}" IN (word,wordtype,definition) ORDER BY word ASC`;
+  console.log(sqlGetSearch);
+  db.all(sqlGetSearch, [], (err, rows) => {
     if (err) return console.error(err.message);
     res.send(rows);
   });
-  console.log(req.body);
   db.close();
 });
+
 app.listen(PORT, () => console.log(`API is live on http://localhost:${PORT}`));
