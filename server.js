@@ -61,4 +61,19 @@ app.get("/definitions/:word", (req, res) => {
   db.close();
 });
 
+// app.delete("/definitions/:word", (req, res) => {
+//   let db = new sqlite3.Database("Dictionary.db", (err) => {
+//     if (err) return console.error(err.message);
+//     console.log("sqlite3 initialized");
+//   });
+
+//   const sqlDelete = `DELETE FROM entries WHERE ${req.params.word} in (word)`;
+//   db.run(sqlDelete, (err) => {
+//     if (err) return console.error(err.message);
+//     res.send(`word and definitions: ${req.params.word} deleted`);
+//   });
+//   console.log(`word and definitions: ${req.params.word} deleted`);
+//   db.close();
+// });
+
 app.listen(PORT, () => console.log(`API is live on http://localhost:${PORT}`));
