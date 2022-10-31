@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dictionary API</title>
-  </head>
-  <body>
-    <h1>Nash's Dictionary API</h1>
+<h1>Nash's Dictionary API</h1>
     <p>
       Welcome to the home page of my API! Here I'll list a short tutorial on how
       to use the endpoints.
@@ -32,9 +23,9 @@
     </ul>
     <h2>Example:</h2>
     <blockquote>
-      fetch(`https://nb-dictionary-api.herokuapp.com/definitions/${input}`)
-      .then((response) => response.json()) .then((response) => {
-      console.log(response); }) .catch((err) => console.error(err));
+      fetch(`https://nb-dictionary-api.herokuapp.com/definitions/${input}`)<br>
+      &nbsp &nbsp &nbsp &nbsp .then((response) => response.json())<br>
+      &nbsp &nbsp &nbsp &nbsp .then((response) => {
+      console.log(response);<br> &nbsp &nbsp &nbsp &nbsp })<br>
+      &nbsp &nbsp &nbsp &nbsp .catch((err) => console.error(err));
     </blockquote>
-  </body>
-</html>
